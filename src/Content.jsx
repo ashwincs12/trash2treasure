@@ -12,20 +12,22 @@ export default function Content() {
       </p>
 
       <div className="button hover:bg-cyan-950">
-        <button>Sell Now</button>
+        <a href="clientschedule">
+          <button>Sell Now</button>
+        </a>
       </div>
       <div className="button  hover:bg-cyan-950">
         <a href="dealerreg">
           <button>Register as Dealer</button>
         </a>
       </div>
-      {/* <div>
+      <div>
         <img
-          src="sufin.png"
+          src="sufinrbg.png"
           alt=""
-          className="w-full xl:w-1/2 xl:absolute bottom-5 right-10"
+          className="w-full xl:w-1/3 xl:absolute bottom-40 right-0"
         />
-      </div> */}
+      </div>
       <div className="heading">
         <h1>
           <b>How it works?</b>

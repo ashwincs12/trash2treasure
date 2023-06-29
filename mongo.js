@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://0.0.0.0:27017/", {
+  .connect("mongodb://localhost:27017/dealers", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -23,6 +23,13 @@ const newSchema = new mongoose.Schema({
   },
 });
 
-const collection = mongoose.model("collection", newSchema);
+const collection = new mongoose.model("collection", newSchema);
+
+const data = {
+  email: "ashwin@gmail.com",
+  password: "123",
+};
+
+collection.insertMany([data]);
 
 module.exports = collection;

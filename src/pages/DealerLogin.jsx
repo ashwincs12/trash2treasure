@@ -1,75 +1,50 @@
-import React from "react";
+import React, { useEffect, useReducer, useState } from "react";
+import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import "./dealercss.css";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import "./dealercss.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function DealerLogin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const history = useNavigate();
 
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
-  async function submit(e) {
+  const signIn = (e) => {
     e.preventDefault();
-
-    try {
-      await axios
-        .post("http://localhost:5173/dealerlogin", {
-          email,
-          password,
-        })
-        .then((res) => {
-          if (res.data == "exist") {
-            history("/dealerhome", { state: { id: email } });
-          } else if (res.data == "notexist") {
-            alert("Invalid Credentials");
-          }
-        })
-        .catch((e) => {
-          alert("wrong details");
-          console.log(e);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
+    signInWithEmailAndPassword(auth, email, password)
+      .then((useCredentials) => {
+        console.log(useCredentials);
+        history("/dealerhome");
+      })
+      .catch((error) => {
+        console.log(error);
+        window.alert("Invalid email or password. Please try again.");
+      });
+  };
   return (
     <div>
       <Navbar />
       <div className="dcontainer">
         <h2>Scrap Dealer Login</h2>
-        <form id="dealerform" action="POST"></form>
-
-        <label htmlFor="dealeruser">Email:</label>
-        <input
-          type="email"
-          required
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-
-        <label htmlFor="dealerpass">Password:</label>
-        <input
-          type="password"
-          required
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-
-        <input type="submit" value="Submit" onClick={submit} />
-        <br />
-        <br />
-        <p>
-          <center>---OR---</center>
-        </p>
-        <br />
-        <Link to="/dealerreg">
-          <center> Register as Dealer </center>
-        </Link>
+        <form id="dealerform">
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <center>
+            <input type="submit" onClick={signIn} />
+          </center>
+        </form>
       </div>
       <Footer />
     </div>
